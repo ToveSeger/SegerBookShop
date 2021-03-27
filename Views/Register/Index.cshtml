@@ -8,7 +8,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Index">
+        <form asp-action="RegisterVerification">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -21,8 +21,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="Password verify" class="control-label">Password verification</label>
-                <input name="Password verify" class="form-control" />
+                <label for="Passwordverify" class="control-label">Password verification</label>
+                <input name="Passwordverify" class="form-control" />
             </div>
 
             <div class="form-group">

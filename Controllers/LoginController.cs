@@ -12,18 +12,17 @@ namespace SegerBookShop.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> LoginVerification(string userName, string passWord) //Fortsätt här, fel vy returneras
+        public async Task<IActionResult> LoginVerification(string Name, string Password)
         {
             BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
-            var login = api.Login(userName, passWord);
+            var login = api.Login(Name, Password);
             if (login != 0)
-            {
+            {                
+                TempData["id"] = login;
+                TempData.Keep("id");
                 return View("LoginVerification", login);
-            }
-           
-                return View("LoginFailed");
-           
-
+            }           
+                return View("LoginFailed");          
         }
     }
 }
