@@ -12,28 +12,26 @@ namespace SegerBookShop.Controllers
 {
     public class BookController : Controller
     {
+        BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
         public IActionResult Index()
         {
             return View();
-        }        
+        }
 
         public async Task<IActionResult> ShowSearchResults(int id)
-        {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
-            var searchResult = api.GetBook(id).ToList();          
+        {           
+            var searchResult = api.GetBook(id).ToList();
             return View(searchResult);
         }
 
         public async Task<IActionResult> ShowSearchResultsWithKeyword(string keyword)
         {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var searchResult = api.GetBooks(keyword).ToList();
             return View(searchResult);
         }
 
         public async Task<IActionResult> MatchingAuthorList(string keyword)
         {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var searchResult = api.GetAuthors(keyword).ToList();
             return View(searchResult);
         }
@@ -44,7 +42,6 @@ namespace SegerBookShop.Controllers
             if (TempData.ContainsKey("adminId"))
                 adminId = Convert.ToInt32(TempData["adminId"]);
             TempData.Keep("adminId");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var bookList = api.GetBookList(adminId);
             return View(bookList);
         }
@@ -68,7 +65,6 @@ namespace SegerBookShop.Controllers
                 var adminId = 0;
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
                 var newUser = api.AddBook(adminId, obj.Title, obj.Author, obj.Price, obj.Amount);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -82,7 +78,6 @@ namespace SegerBookShop.Controllers
             if (TempData.ContainsKey("adminId"))
                 adminId = Convert.ToInt32(TempData["adminId"]);
             TempData.Keep("adminId");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -102,7 +97,6 @@ namespace SegerBookShop.Controllers
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
                 TempData.Keep("adminId");
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
                 var newUser = api.UpdateBook(adminId, obj.Id, obj.Title, obj.Author, obj.Price);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -116,7 +110,6 @@ namespace SegerBookShop.Controllers
             if (TempData.ContainsKey("adminId"))
                 adminId = Convert.ToInt32(TempData["adminId"]);
             TempData.Keep("adminId");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -136,8 +129,7 @@ namespace SegerBookShop.Controllers
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
                 TempData.Keep("adminId");
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
-                var newUser = api.DeleteBook(adminId, obj.Id);
+                api.DeleteBook(adminId, obj.Id);
                 var objList = new List<Book>();
                 objList.Add(obj);
                 return View("DeletionOk");
@@ -146,34 +138,31 @@ namespace SegerBookShop.Controllers
         }
 
         public IActionResult AllAvailableBooks(int id)
-        {                       
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
+        {
             var bookList = api.GetAvailableBooks(id);
-            return View("AvailableBooks", bookList);            
+            return View("AvailableBooks", bookList);
         }
 
         public IActionResult BuyBook(Book obj)
-        {            
+        {
             var id = 0;
             if (TempData.ContainsKey("id"))
                 id = Convert.ToInt32(TempData["id"]);
             TempData.Keep("id");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var boughtBook = api.BuyBook(id, obj.Id);
-            if (boughtBook==true)
+            if (boughtBook == true)
             {
                 return View();
             }
-            return View("BuyFailed");           
+            return View("BuyFailed");
         }
 
-        public IActionResult StockCorrection(int Id, int adminId) 
+        public IActionResult StockCorrection(int Id, int adminId)
         {
             adminId = 0;
             if (TempData.ContainsKey("adminId"))
                 adminId = Convert.ToInt32(TempData["adminId"]);
             TempData.Keep("adminId");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -192,7 +181,6 @@ namespace SegerBookShop.Controllers
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
                 TempData.Keep("adminId");
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
                 obj.Amount = api.SetAmount(adminId, obj.Id, obj.Amount);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -200,6 +188,28 @@ namespace SegerBookShop.Controllers
             }
             return View("CreationFailed");
         }
-      
+        public IActionResult AddBookToCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddBookToCategory(Book obj)
+        {
+            if (ModelState.IsValid)
+            {
+                var adminId = 0;
+                if (TempData.ContainsKey("adminId"))
+                    adminId = Convert.ToInt32(TempData["adminId"]);
+                TempData.Keep("adminId");
+                var added = api.AddBookToCategory(adminId, obj.Id, obj.CategoryId);
+                if (added == true)
+                {
+                    return View("BookAddedToCategory");
+                }
+            }
+            return View("CreationFailed");
+        }
     }
 }

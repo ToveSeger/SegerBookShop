@@ -54,8 +54,10 @@
                         <td width="20%">@user.IsAdmin</td>
                         <td width="40%">
                             <div class="w-100 btn-group" role-"group">
-                                <a asp-controller="Item" asp-action="UpdateItem" asp-route-Id="@user.Id" class="btn btn-primary mx-1">Update </a>
-                                <a asp-controller="Item" asp-action="DeleteItem" asp-route-Id="@user.Id" class="btn btn-danger mx-1">Delete </a>
+                                <a asp-controller="User" asp-action="Inactivate" asp-route-Id="@user.Id" class="btn btn-primary mx-1">Inactivate </a>
+                                <a asp-controller="User" asp-action="Activate" asp-route-Id="@user.Id" class="btn btn-danger mx-1">Activate </a>
+                                <a asp-controller="User" asp-action="Promote" asp-route-Id="@user.Id" class="btn btn-danger mx-1">Promote </a>
+                                <a asp-controller="User" asp-action="Demote" asp-route-Id="@user.Id" class="btn btn-danger mx-1">Demote </a>
                             </div>
                         </td>
                     </tr>
@@ -68,9 +70,9 @@
     {
         <p>No items created yet</p>
     }
-<div>
-    <a asp-controller="Home" asp-action="Index">Take me to start page</a>
-</div>
+    <div>
+        <a asp-controller="AdminLogin" asp-action="LoginVerification">Back to Admin Menu</a>
+    </div>
 
 
 </div>
