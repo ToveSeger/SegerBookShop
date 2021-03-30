@@ -7,12 +7,25 @@ using System.Threading.Tasks;
 
 namespace SegerBookShop.Controllers
 {
+    /// <summary>
+    /// Handles functions related to logging in. 
+    /// </summary>
     public class LoginController : Controller
     {
+        /// <summary>
+        /// Presents log in view.
+        /// </summary>
+        /// <returns>Related view</returns>
         public IActionResult Index()
         {                      
             return View();
         }
+        /// <summary>
+        /// Logs in a user if log in details are correct. 
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Password"></param>
+        /// <returns>Related view</returns>
         public IActionResult LoginVerification(string Name, string Password)
         {
             BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
@@ -25,15 +38,6 @@ namespace SegerBookShop.Controllers
             }           
                 return View("LoginFailed");          
         }
-
-        //public User KeepLoginDetails(User obj)
-        //{
-        //    if (TempData.ContainsKey("adminCheck"))
-        //        obj.IsAdmin = Convert.ToBoolean(TempData["adminCheck"]);
-        //    if (TempData.ContainsKey("adminId"))
-        //        obj.Id = Convert.ToInt32(TempData["adminId"]);
-        //    TempData.Keep();
-        //    return obj;
-        //}
+       
     }
 }

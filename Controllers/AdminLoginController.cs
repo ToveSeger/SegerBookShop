@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace SegerBookShop.Controllers
 {
+    /// <summary>
+    /// Handles functions related to Admin Login.
+    /// </summary>
     public class AdminLoginController : Controller
     {      
+        /// <summary>
+        /// Shows admin log in view. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>Related view</returns>
         public IActionResult Index(User obj)
         {
             obj = KeepAdminDetails(obj);        
@@ -38,12 +46,19 @@ namespace SegerBookShop.Controllers
             }
             return View("LoginFailed");
         }
-
+        /// <summary>
+        /// Shows login verification view. 
+        /// </summary>
+        /// <returns>Related view</returns>
         public IActionResult LoginVerification()
         {
             return View();
         }
-
+        /// <summary>
+        /// Saves admin details in Temp Data to avoid having to log in as admin over and over again. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>User object</returns>
         public User KeepAdminDetails(User obj)
         {
             if (TempData.ContainsKey("adminCheck"))

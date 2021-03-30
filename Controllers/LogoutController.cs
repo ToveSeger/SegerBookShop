@@ -6,13 +6,25 @@ using System.Threading.Tasks;
 
 namespace SegerBookShop.Controllers
 {
+    /// <summary>
+    /// Handles functions related to logging out. 
+    /// </summary>
     public class LogoutController : Controller
     {
+        /// <summary>
+        /// Presents log out view.
+        /// </summary>
+        /// <returns>Related view</returns>
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// Presents a confirmation view if log out succeeded. otherwhise a "fail view".
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="adminId"></param>
+        /// <returns>One of the related views</returns>
         public IActionResult LogoutOk(int id, int adminId)
         {
             BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();

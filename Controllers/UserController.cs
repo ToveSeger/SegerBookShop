@@ -7,38 +7,53 @@ using System.Threading.Tasks;
 
 namespace SegerBookShop.Controllers
 {
+    /// <summary>
+    /// Handles functions related to users. 
+    /// </summary>
     public class UserController : Controller
     {
-        BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();        
+        BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();   // Connection to API.     
+        /// <summary>
+        /// Presents index view of users.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public IActionResult Index(User obj)
         {
             return View();
         }     
-
+        /// <summary>
+        /// Gets list with all users and sends it to the view. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns>Related view</returns>
         public ActionResult UserList(int adminId, User obj)
         {
-            //adminId = SaveAdminId(adminId);
             var userList = api.ListUsers(adminId);
             return View(userList);
         }
-      
-        public IActionResult Create(int adminId)
+        /// <summary>
+        /// Presents creation view. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>Related view</returns>
+        public IActionResult Create()
         {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-            adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
             return View();
         }
-
-
+        /// <summary>
+        /// Creates a new user with the given input. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns>Related view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(int adminId, User obj)
         {
             if (ModelState.IsValid)
             {
-                //adminId = SaveAdminId(adminId);
                 var newUser = api.AddUser(adminId, obj.Name, obj.Password);
                 var objList = new List<User>();
                 objList.Add(obj);
@@ -46,24 +61,37 @@ namespace SegerBookShop.Controllers
             }
             return View("CreationFailed");
         }
-      
-       public IActionResult FindUser(int adminId, string keyword)
-       {
-            //adminId = SaveAdminId(adminId);
+        /// <summary>
+        /// Gets a list with user(s) containing the given keyword. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="keyword"></param>
+        /// <returns>Related view</returns>
+        public IActionResult FindUser(int adminId, string keyword)
+        {
             var searchResult = api.FindUser(adminId, keyword).ToList();
             return View("UserList",searchResult);
-       }
-
+        }
+        /// <summary>
+        /// Presents promotion view and brings a User object to be able to present which user it's about. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>Related view</returns>
         public IActionResult Promote(User obj)
         {
             return View(FindUserToSendToView(obj));
            
         }
+        /// <summary>
+        /// Promotes a user. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Promote(int adminId, User obj)
         {
-           // adminId = SaveAdminId(adminId);
             var inactivation = api.Promote(adminId, obj.Id);
             if (inactivation == true)
             {
@@ -72,16 +100,25 @@ namespace SegerBookShop.Controllers
             return View(NotFound());
 
         }
+        /// <summary>
+        /// Presents demotion view and brings a User object to be able to present which user it's about. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public IActionResult Demote(User obj)
         {
-            return View(FindUserToSendToView(obj));
-          
+            return View(FindUserToSendToView(obj));         
         }
+        /// <summary>
+        /// Demotes a user. 
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Demote(int adminId, User obj)
         {
-            //adminId = SaveAdminId(adminId);
             var activation = api.Demote(adminId, obj.Id);
             if (activation == true)
             {
@@ -89,16 +126,25 @@ namespace SegerBookShop.Controllers
             }
             return View(NotFound());
         }
+        /// <summary>
+        /// Presents activation view and brings a User object to be able to present which user it's about. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public IActionResult Activate(User obj)
         {
             return View(FindUserToSendToView(obj));          
         }
-
+        /// <summary>
+        /// Activates a user.
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Activate(int adminId, User obj)
         {
-            //adminId = SaveAdminId(adminId);
             var activation = api.ActivateUser(adminId, obj.Id);
             if (activation==true)
             {
@@ -106,16 +152,25 @@ namespace SegerBookShop.Controllers
             }
             return View(NotFound());
         }
+        /// <summary>
+        /// Presents inactivation view and brings a User object to be able to present which user it's about. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public IActionResult Inactivate(User obj)
         {
             return View(FindUserToSendToView(obj));
         }
-
+        /// <summary>
+        /// Inactivates a user.
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Inactivate(int adminId, User obj)
         {
-            //adminId = SaveAdminId(adminId);
             var inactivation = api.InactivateUser(adminId, obj.Id);
             if (inactivation == true)
             {
@@ -138,18 +193,6 @@ namespace SegerBookShop.Controllers
             var user = api.FindUser(adminId, obj.Id);
             return user;
         }
-        /// <summary>
-        /// Saves admin Id in Temp Data to be able to pass it forward to access all admin methods
-        /// </summary>
-        /// <param name="adminId"></param>
-        /// <returns>admin Id</returns>
-        //public int SaveAdminId(int adminId)
-        //{
-        //    adminId = 0;
-        //    if (TempData.ContainsKey("adminId"))
-        //        adminId = Convert.ToInt32(TempData["adminId"]);
-        //    TempData.Keep("adminId");
-        //    return adminId;
-        //}
+        
     }
 }

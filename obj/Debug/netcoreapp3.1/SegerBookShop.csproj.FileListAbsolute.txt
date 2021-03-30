@@ -205,3 +205,5 @@ C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\
 C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\Razor\Views\Revenue\BestCustomer.cshtml.g.cs
 C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\Razor\Views\BookCategory\Create.cshtml.g.cs
 C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\Razor\Views\User\UserListWithoutButtons.cshtml.g.cs
+C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\Razor\Views\BookCategory\ListAllCategoriesWithoutButtons.cshtml.g.cs
+C:\Users\toves\source\repos\SegerBookShop\SegerBookShop\obj\Debug\netcoreapp3.1\Razor\Views\Book\AllBooksWithoutButtons.cshtml.g.cs

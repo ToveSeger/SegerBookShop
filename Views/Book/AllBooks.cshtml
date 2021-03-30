@@ -52,8 +52,8 @@
                         <div class="w-100 btn-group" role-"group">
                             <a asp-controller="Book" asp-action="Update" asp-route-Id="@book.Id" class="btn btn-primary mx-1">Update </a>
                             <a asp-controller="Book" asp-action="Delete" asp-route-Id="@book.Id" class="btn btn-danger mx-1">Delete </a>
-                            <a asp-controller="Book" asp-action="StockCorrection" asp-route-Id="@book.Id" class="btn btn-danger mx-1">Stock Correction </a>
-                            <a asp-controller="Book" asp-action="AddBookToCategory" asp-route-Id="@book.Id" class="btn btn-danger mx-1">Add book to category </a>
+                            <a asp-controller="Book" asp-action="StockCorrection" asp-route-Id="@book.Id" class="btn btn-primary mx-1">Stock Correction </a>
+                            <a asp-controller="Book" asp-action="AddBookToCategory" asp-route-Id="@book.Id" class="btn btn-primary mx-1">Add book to category </a>
                         </div>
                     </td>
                 </tr>
@@ -64,7 +64,7 @@
     }
     else
     {
-        <p>No items created yet</p>
+        <p>No books created yet</p>
     }
     <div>
         <a asp-controller="AdminLogin" asp-action="LoginVerification">Back to Admin Menu</a>
