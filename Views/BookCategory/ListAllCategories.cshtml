@@ -7,6 +7,9 @@
         <div class="=" col-6">
             <h2 class="text-primary">Search Results</h2>
         </div>
+        <div class="col-6 text-right">
+            <a asp-controller="BookCategory" asp-action="Create" class="btn bg-primary">Create New Book Category</a>
+        </div>
         <br />
 
         @if (Model.Count() > 0)

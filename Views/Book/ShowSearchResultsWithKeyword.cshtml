@@ -32,17 +32,17 @@
             <tbody>
                 @foreach (var book in Model)
                 {
-                <tr>
-                    <td width="20%">@book.Title</td>
-                    <td width="20%">@book.Author</td>
-                    <td width="20%">@book.Price</td>
-                    <td width="20%">@book.Amount</td>
-                    <td width="40%">
-                        <div class="w-100 btn-group" role-"group">
-                            <a asp-controller="Book" asp-action="BuyBook" asp-route-Id="@book.Id" class="btn btn-primary mx-1">Buy book </a>
-                        </div>
-                    </td>
-                </tr>
+                    <tr>
+                        <td width="20%">@book.Title</td>
+                        <td width="20%">@book.Author</td>
+                        <td width="20%">@book.Price</td>
+                        <td width="20%">@book.Amount</td>
+                        <td width="40%">
+                            <div class="w-100 btn-group" role-"group">
+                                <a asp-controller="Book" asp-action="BuyBook" asp-route-Id="@book.Id" class="btn btn-primary mx-1">Buy book </a>
+                            </div>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -52,7 +52,9 @@
     {
         <p>No items created yet</p>
     }
-
+    <div>
+        <a asp-controller="Book" asp-action="Index">Back</a>
+    </div>
 
 </div>
 

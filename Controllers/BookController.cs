@@ -18,19 +18,19 @@ namespace SegerBookShop.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ShowSearchResults(int id)
+        public IActionResult ShowSearchResults(int id)
         {           
             var searchResult = api.GetBook(id).ToList();
             return View(searchResult);
         }
 
-        public async Task<IActionResult> ShowSearchResultsWithKeyword(string keyword)
+        public IActionResult ShowSearchResultsWithKeyword(string keyword)
         {
             var searchResult = api.GetBooks(keyword).ToList();
             return View(searchResult);
         }
 
-        public async Task<IActionResult> MatchingAuthorList(string keyword)
+        public IActionResult MatchingAuthorList(string keyword)
         {
             var searchResult = api.GetAuthors(keyword).ToList();
             return View(searchResult);
@@ -58,13 +58,13 @@ namespace SegerBookShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Book obj)
+        public IActionResult Create(int adminId, Book obj)
         {
             if (ModelState.IsValid)
             {
-                var adminId = 0;
-                if (TempData.ContainsKey("adminId"))
-                    adminId = Convert.ToInt32(TempData["adminId"]);
+                //var adminId = 0;
+                //if (TempData.ContainsKey("adminId"))
+                //    adminId = Convert.ToInt32(TempData["adminId"]);
                 var newUser = api.AddBook(adminId, obj.Title, obj.Author, obj.Price, obj.Amount);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -74,10 +74,10 @@ namespace SegerBookShop.Controllers
         }
         public IActionResult Update(int Id, int adminId)
         {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-                adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
+            //adminId = 0;
+            //if (TempData.ContainsKey("adminId"))
+            //    adminId = Convert.ToInt32(TempData["adminId"]);
+            //TempData.Keep("adminId");
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -89,14 +89,14 @@ namespace SegerBookShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Book obj)
+        public IActionResult Update(int adminId, Book obj)
         {
             if (ModelState.IsValid)
             {
-                var adminId = 0;
-                if (TempData.ContainsKey("adminId"))
-                    adminId = Convert.ToInt32(TempData["adminId"]);
-                TempData.Keep("adminId");
+                //var adminId = 0;
+                //if (TempData.ContainsKey("adminId"))
+                //    adminId = Convert.ToInt32(TempData["adminId"]);
+                //TempData.Keep("adminId");
                 var newUser = api.UpdateBook(adminId, obj.Id, obj.Title, obj.Author, obj.Price);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -106,10 +106,10 @@ namespace SegerBookShop.Controllers
         }
         public IActionResult Delete(int Id, int adminId)
         {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-                adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
+            //adminId = 0;
+            //if (TempData.ContainsKey("adminId"))
+            //    adminId = Convert.ToInt32(TempData["adminId"]);
+            //TempData.Keep("adminId");
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -121,14 +121,14 @@ namespace SegerBookShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Book obj)
+        public IActionResult Delete(int adminId, Book obj)
         {
             if (ModelState.IsValid)
             {
-                var adminId = 0;
-                if (TempData.ContainsKey("adminId"))
-                    adminId = Convert.ToInt32(TempData["adminId"]);
-                TempData.Keep("adminId");
+                //var adminId = 0;
+                //if (TempData.ContainsKey("adminId"))
+                //    adminId = Convert.ToInt32(TempData["adminId"]);
+                //TempData.Keep("adminId");
                 api.DeleteBook(adminId, obj.Id);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -143,12 +143,11 @@ namespace SegerBookShop.Controllers
             return View("AvailableBooks", bookList);
         }
 
-        public IActionResult BuyBook(Book obj)
-        {
-            var id = 0;
+        public IActionResult BuyBook(int id, Book obj)
+        {       
             if (TempData.ContainsKey("id"))
                 id = Convert.ToInt32(TempData["id"]);
-            TempData.Keep("id");
+            TempData.Keep();
             var boughtBook = api.BuyBook(id, obj.Id);
             if (boughtBook == true)
             {
@@ -159,10 +158,10 @@ namespace SegerBookShop.Controllers
 
         public IActionResult StockCorrection(int Id, int adminId)
         {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-                adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
+            //adminId = 0;
+            //if (TempData.ContainsKey("adminId"))
+            //    adminId = Convert.ToInt32(TempData["adminId"]);
+            //TempData.Keep("adminId");
             var thisBook = api.GetBook(Id);
             if (Id == 0)
             {
@@ -173,14 +172,14 @@ namespace SegerBookShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult StockCorrection(Book obj)
+        public IActionResult StockCorrection(int adminId, Book obj)
         {
             if (ModelState.IsValid)
             {
-                var adminId = 0;
-                if (TempData.ContainsKey("adminId"))
-                    adminId = Convert.ToInt32(TempData["adminId"]);
-                TempData.Keep("adminId");
+                //var adminId = 0;
+                //if (TempData.ContainsKey("adminId"))
+                //    adminId = Convert.ToInt32(TempData["adminId"]);
+                //TempData.Keep("adminId");
                 obj.Amount = api.SetAmount(adminId, obj.Id, obj.Amount);
                 var objList = new List<Book>();
                 objList.Add(obj);
@@ -195,14 +194,14 @@ namespace SegerBookShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddBookToCategory(Book obj)
+        public IActionResult AddBookToCategory(int adminId, Book obj)
         {
             if (ModelState.IsValid)
             {
-                var adminId = 0;
-                if (TempData.ContainsKey("adminId"))
-                    adminId = Convert.ToInt32(TempData["adminId"]);
-                TempData.Keep("adminId");
+                //var adminId = 0;
+                //if (TempData.ContainsKey("adminId"))
+                //    adminId = Convert.ToInt32(TempData["adminId"]);
+                //TempData.Keep("adminId");
                 var added = api.AddBookToCategory(adminId, obj.Id, obj.CategoryId);
                 if (added == true)
                 {

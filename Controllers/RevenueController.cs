@@ -15,20 +15,20 @@ namespace SegerBookShop.Controllers
         }
         public IActionResult SoldItems(int adminId)
         {
-            adminId=SaveAdminId(adminId);
+            //adminId=SaveAdminId(adminId);
             var allSoldItems = api.SoldItems(adminId);
             return View(allSoldItems);
         }
         public IActionResult MoneyEarned(int adminId)
         {
-            adminId = SaveAdminId(adminId);
+           // adminId = SaveAdminId(adminId);
             var sumOfMoneyEarned = api.MoneyEarned(adminId);
             ViewData ["sumOfMoneyEarned"]= sumOfMoneyEarned;
             return View();
         }
         public IActionResult BestCustomer(int adminId)
         {
-            adminId = SaveAdminId(adminId);
+           // adminId = SaveAdminId(adminId);
             var theBestCustomer = api.BestCustomer(adminId);
             ViewData["theBestCustomer"] = theBestCustomer;
             return View(theBestCustomer);
@@ -38,13 +38,13 @@ namespace SegerBookShop.Controllers
         /// </summary>
         /// <param name="adminId"></param>
         /// <returns>admin Id</returns>
-        public int SaveAdminId(int adminId)
-        {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-                adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
-            return adminId;
-        }
+        //public int SaveAdminId(int adminId)
+        //{
+        //    adminId = 0;
+        //    if (TempData.ContainsKey("adminId"))
+        //        adminId = Convert.ToInt32(TempData["adminId"]);
+        //    TempData.Keep("adminId");
+        //    return adminId;
+        //}
     }
 }

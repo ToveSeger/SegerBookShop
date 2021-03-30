@@ -13,7 +13,7 @@ namespace SegerBookShop.Controllers
             return View();
         }
 
-        public async Task<IActionResult> RegisterVerification(string Name, string Password, string Passwordverify)
+        public IActionResult RegisterVerification(string Name, string Password, string Passwordverify)
         {
             BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var register = api.Register(Name, Password, Passwordverify);

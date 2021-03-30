@@ -17,7 +17,7 @@ namespace SegerBookShop.Controllers
 
         public ActionResult UserList(int adminId, User obj)
         {
-            adminId = SaveAdminId(adminId);
+            //adminId = SaveAdminId(adminId);
             var userList = api.ListUsers(adminId);
             return View(userList);
         }
@@ -38,18 +38,18 @@ namespace SegerBookShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                adminId = SaveAdminId(adminId);
+                //adminId = SaveAdminId(adminId);
                 var newUser = api.AddUser(adminId, obj.Name, obj.Password);
                 var objList = new List<User>();
                 objList.Add(obj);
-                return View("UserList", objList);
+                return View("UserListWithoutButtons", objList);
             }
             return View("CreationFailed");
         }
       
        public IActionResult FindUser(int adminId, string keyword)
        {
-            adminId = SaveAdminId(adminId);
+            //adminId = SaveAdminId(adminId);
             var searchResult = api.FindUser(adminId, keyword).ToList();
             return View("UserList",searchResult);
        }
@@ -63,7 +63,7 @@ namespace SegerBookShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Promote(int adminId, User obj)
         {
-            adminId = SaveAdminId(adminId);
+           // adminId = SaveAdminId(adminId);
             var inactivation = api.Promote(adminId, obj.Id);
             if (inactivation == true)
             {
@@ -81,7 +81,7 @@ namespace SegerBookShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Demote(int adminId, User obj)
         {
-            adminId = SaveAdminId(adminId);
+            //adminId = SaveAdminId(adminId);
             var activation = api.Demote(adminId, obj.Id);
             if (activation == true)
             {
@@ -98,7 +98,7 @@ namespace SegerBookShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Activate(int adminId, User obj)
         {
-            adminId = SaveAdminId(adminId);
+            //adminId = SaveAdminId(adminId);
             var activation = api.ActivateUser(adminId, obj.Id);
             if (activation==true)
             {
@@ -115,7 +115,7 @@ namespace SegerBookShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Inactivate(int adminId, User obj)
         {
-            adminId = SaveAdminId(adminId);
+            //adminId = SaveAdminId(adminId);
             var inactivation = api.InactivateUser(adminId, obj.Id);
             if (inactivation == true)
             {
@@ -143,13 +143,13 @@ namespace SegerBookShop.Controllers
         /// </summary>
         /// <param name="adminId"></param>
         /// <returns>admin Id</returns>
-        public int SaveAdminId(int adminId)
-        {
-            adminId = 0;
-            if (TempData.ContainsKey("adminId"))
-                adminId = Convert.ToInt32(TempData["adminId"]);
-            TempData.Keep("adminId");
-            return adminId;
-        }
+        //public int SaveAdminId(int adminId)
+        //{
+        //    adminId = 0;
+        //    if (TempData.ContainsKey("adminId"))
+        //        adminId = Convert.ToInt32(TempData["adminId"]);
+        //    TempData.Keep("adminId");
+        //    return adminId;
+        //}
     }
 }

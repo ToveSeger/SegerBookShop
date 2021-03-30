@@ -9,28 +9,26 @@ namespace SegerBookShop.Controllers
 {
     public class BookCategoryController : Controller
     {
+        BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> ListAllCategories()
+        public IActionResult ListAllCategories()
         {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var searchResult = api.GetCategories().ToList();
             return View(searchResult);
         }
-        public async Task<IActionResult> ShowCategoryResults(int id)
+        public IActionResult ShowCategoryResults(int id)
         {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var searchResult = api.GetCategory(id).ToList();
             return View(searchResult);
         }
 
 
-        public async Task<IActionResult> ShowCategoryResultsWithKeyword(string keyword)
+        public IActionResult ShowCategoryResultsWithKeyword(string keyword)
         {
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             var searchResult = api.GetCategories(keyword).ToList();
             return View("ShowCategoryResultsWithKeyword", searchResult);
         }
@@ -51,7 +49,6 @@ namespace SegerBookShop.Controllers
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
                 TempData.Keep("adminId");
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
                 var deletion= api.DeleteCategory(adminId, obj.Id);
                 if (deletion==true)
                 {
@@ -67,7 +64,6 @@ namespace SegerBookShop.Controllers
             if (TempData.ContainsKey("adminId"))
                 adminId = Convert.ToInt32(TempData["adminId"]);
             TempData.Keep("adminId");
-            BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
             BookCategory category = api.FindCategory(id);
             if (category == null)
             {
@@ -87,12 +83,48 @@ namespace SegerBookShop.Controllers
                 if (TempData.ContainsKey("adminId"))
                     adminId = Convert.ToInt32(TempData["adminId"]);
                 TempData.Keep("adminId");
-                BookShop.WebbShopAPI api = new BookShop.WebbShopAPI();
                 var update = api.UpdateCategory(adminId, obj.Id, obj.Name);
                 var objList = new List<BookCategory>() { obj};
                 return View("ListAllCategories", objList);
             }
             return View(NotFound());
         }
+
+        public IActionResult Create(int adminId)
+        {
+            adminId = SaveAdminId(adminId);
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(int adminId, BookCategory obj)
+        {
+            if (ModelState.IsValid)
+            {
+                adminId = SaveAdminId(adminId);
+                var newUser = api.AddCategory(adminId, obj.Name);
+                var objList = new List<BookCategory>();
+                objList.Add(obj);
+                return View("ListAllCategories", objList);
+            }
+            return View("CreationFailed");
+        }
+
+        /// <summary>
+        /// Saves admin Id in Temp Data to be able to pass it forward to access all admin methods
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>admin Id</returns>
+        public int SaveAdminId(int adminId)
+        {
+            adminId = 0;
+            if (TempData.ContainsKey("adminId"))
+                adminId = Convert.ToInt32(TempData["adminId"]);
+            TempData.Keep("adminId");
+            return adminId;
+        }
+    
     }   
 }
