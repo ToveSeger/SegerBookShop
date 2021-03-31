@@ -24,6 +24,11 @@ namespace SegerBookShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            BookShop.Controllers.Seeder seed = new BookShop.Controllers.Seeder();//Connection to seeder in BookShop
+            seed.AddInitialBooks();//Adds initial books
+            seed.AddInitialCategories();//Adds initial categories
+            seed.AddInitialUsers();//Adds initial users
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

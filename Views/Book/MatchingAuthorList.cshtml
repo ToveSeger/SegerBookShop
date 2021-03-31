@@ -15,6 +15,9 @@
                 <thead>
                     <tr>
                         <th>
+                            Id
+                        </th>
+                        <th>
                             Title
                         </th>
                         <th>
@@ -31,7 +34,8 @@
                 <tbody>
                     @foreach (var book in Model)
                     {
-                        <tr>
+                        <tr>'
+                            <td width="20%">@book.Id</td>'
                             <td width="20%">@book.Title</td>
                             <td width="20%">@book.Author</td>
                             <td width="20%">@book.Price</td>
